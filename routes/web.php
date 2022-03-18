@@ -14,6 +14,19 @@ use Illuminate\Support\Facades\Route;
 */
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CompanyController;
+Route::get('/', function(){
+$companies= App\Models\Company::all();
+foreach($companies as $companie){
+
+foreach($companie->users as $user){
+    echo($user['name']);
+}
+
+}
+});
+
+
+
 
 Route::get('/users', [UserController::class, 'index'])->name('users.index');
 Route::get('/company', [CompanyController::class, 'index'])->name('company.index');

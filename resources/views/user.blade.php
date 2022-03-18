@@ -27,12 +27,16 @@
                         <th width="50">No</th>
                         <th>Name</th>
                         <th>Email</th>
+                     
+            
+                        <th>Компания</th>
                         <th width="100px">Action</th>
                     </tr>
                 </thead>
                 <tbody>
                 </tbody>
             </table>
+          
         </div>
     </div>
 </div>
@@ -47,6 +51,7 @@
             {data: 'DT_RowIndex', name: 'DT_RowIndex'},
             {data: 'name', name: 'name'},
             {data: 'email', name: 'email'},
+            {data: 'company_id', name: 'company_id'},
             {data: 'action', name: 'action', orderable: false, searchable: false},
         ]
     });

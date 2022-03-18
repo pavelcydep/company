@@ -24,6 +24,7 @@
             <table class="table table-bordered data-table">
                 <thead>
                     <tr>
+                        
                         <th width="50">No</th>
                         <th>Компания</th>
                         <th>Email</th>
@@ -44,7 +45,7 @@
     var table = $('.data-table').DataTable({
         processing: true,
         serverSide: true,
-        ajax: "{{ route('users.index') }}",
+        ajax: "{{ route('company.index') }}",
         columns: [
             {data: 'DT_RowIndex', name: 'DT_RowIndex'},
             {data: 'company', name: 'company'},

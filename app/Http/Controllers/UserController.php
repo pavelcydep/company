@@ -4,12 +4,14 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Company;
 use DataTables;
 
 class UserController extends Controller
 {
     public function index(Request $request)
     {
+        $company = Company::all();
         if ($request->ajax()) {
             $data = User::latest()->get();
             return Datatables::of($data)
@@ -22,6 +24,6 @@ class UserController extends Controller
                     ->make(true);
         }
 
-        return view('user');
+        return view('user',['company'=>$company]);
     }
 }
