@@ -30,3 +30,7 @@ foreach($companie->users as $user){
 
 Route::get('/users', [UserController::class, 'index'])->name('users.index');
 Route::get('/company', [CompanyController::class, 'index'])->name('company.index');
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
