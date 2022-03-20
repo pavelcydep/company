@@ -1,36 +1,21 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Gate;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CompanyController;
-Route::get('/', function(){
-$companies= App\Models\Company::all();
-foreach($companies as $companie){
 
-foreach($companie->users as $user){
-    echo($user['name']);
-}
-
-}
-});
-
-
-
+Route::delete('/company/{id}/destroy', [CompanyController::class, 'destroy'])->name('company.destroy');
 
 Route::get('/users', [UserController::class, 'index'])->name('users.index');
 Route::get('/company', [CompanyController::class, 'index'])->name('company.index');
-
+Route::get('/company/{id}/edit', [CompanyController::class, 'edit'])->name('company.edit');
+Route::post('/company', [CompanyController::class, 'store'])->name('ajaxbooks.store');
+Route::put('/company', [CompanyController::class, 'store'])->name('ajaxbooks.edit');
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+
+

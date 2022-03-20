@@ -1,35 +1,95 @@
 <?php
 namespace App\Http\Controllers;
-use App\Repositories\TaskRepository;
+
 use Illuminate\Http\Request;
 use App\Models\Company;
+use Illuminate\Support\Facades\Gate;
 use DataTables;
 
 class CompanyController extends Controller
 {
-    
-   
+ 
 
-  
+ 
 
     public function index(Request $request)
     {
         
-        $company = Company::all();
+    
         
         if ($request->ajax()) {
             $data = Company::latest()->get();
             return Datatables::of($data)
                     ->addIndexColumn()
                     ->addColumn('action', function($row){
-                        $btn = '<a href="javascript:void(0)" class="edit btn btn-primary btn-sm">View</a>';
-                        return $btn;
-                    })
-                    ->rawColumns(['action'])
+
+                        $btn = '<a href="javascript:void(0)" data-toggle="tooltip"  data-id="'.$row->id.'" data-original-title="Edit" class="edit btn btn-primary btn-sm edit">Edit</a>';
+
+                        $btn = $btn.' <a href="javascript:void(0)" data-toggle="tooltip"  data-id="'.$row->id.'" data-original-title="Delete" class="btn btn-danger btn-sm delete">Delete</a>';
+
+                        
+                        
+
+                         return $btn;
+                 })
+                 ->rawColumns(['action'])
+                    
                     ->make(true);
         }
 
         return view('company');
     }
+
+
+
+    public function store(Request $request)
+    {
+        Company::updateOrCreate(['id' => $request->book_id],
+                ['company' => $request->company, 
+                'email' => $request->email,
+                'logo' => $request->logo,
+                'addres' => $request->addres,
+            ]);        
+
+        return response()->json(['success'=>'Book saved successfully.']);
+    }
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  \App\Company  $company
+     * @return \Illuminate\Http\Response
+     */
+   
+
+
+    public function storeUpdate($id)
+    {
+        $company = Company::findOrfail($id);
+        return response()->json($company);
+        
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\Company  $company
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        $company= Company::find($id)->delete();
+
+        return response()->json($company);
+    }
+
+
+    public function edit($id)
+    {
+        $book = Company::find($id);
+        return response()->json($book);
+    }
+
+
+
 }
 
