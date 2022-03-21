@@ -16,7 +16,8 @@
 </head>
 <body>
 <div class="container">
-<a class="btn btn-success" href="javascript:void(0)" id="createNewUser">Новая компания</a>
+<a href="{{url('/company')}}" class="btn btn-success" >Компании</a>
+<a class="btn btn-success" href="javascript:void(0)" id="createNewUser">Добавить сотрудника</a>
     <div class="row">
         <div class="col-md-12 mt-5">
             <div class="row">

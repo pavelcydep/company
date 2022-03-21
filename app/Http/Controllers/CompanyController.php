@@ -21,8 +21,9 @@ class CompanyController extends Controller
             $data = Company::latest()->get();
             return Datatables::of($data)
                     ->addIndexColumn()
+                    
                     ->addColumn('action', function($row){
-
+                        if(Gate::check('admin-protected')){
                         $btn = '<a href="javascript:void(0)" data-toggle="tooltip"  data-id="'.$row->id.'" data-original-title="Edit" class="edit btn btn-primary btn-sm edit">Edit</a>';
 
                         $btn = $btn.' <a href="javascript:void(0)" data-toggle="tooltip"  data-id="'.$row->id.'" data-original-title="Delete" class="btn btn-danger btn-sm delete">Delete</a>';
@@ -30,7 +31,7 @@ class CompanyController extends Controller
                         
                         
 
-                         return $btn;
+                         return $btn;}
                  })
                  ->rawColumns(['action'])
                     
@@ -88,8 +89,8 @@ class CompanyController extends Controller
         $book = Company::find($id);
         return response()->json($book);
     }
-
-
+   
+    
 
 }
 

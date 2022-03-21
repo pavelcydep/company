@@ -6,6 +6,11 @@ use Illuminate\Support\Facades\Gate;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CompanyController;
 
+
+
+
+
+
 Route::delete('/company/{id}/destroy', [CompanyController::class, 'destroy'])->name('company.destroy');
 
 Route::get('/company', [CompanyController::class, 'index'])->name('company.index');
@@ -20,6 +25,6 @@ Route::post('/users', [UserController::class, 'store'])->name('user.store');
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
+Route::get('home/company', [App\Http\Controllers\HomeController::class, 'home'])->name('home2');
 
 

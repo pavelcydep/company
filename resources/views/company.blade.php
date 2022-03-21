@@ -13,7 +13,15 @@
     <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
     <script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU&amp;apikey=<ваш API-ключ>" type="text/javascript"></script>
     <script src="placemark.js" type="text/javascript"></script>
-
+    <style>
+           /*Размер карты*/
+           #map { width:70%;height:500px }
+           /*Отображение карты в черно-белом цвете */
+           .ymaps-glass-pane, .ymaps-layers-pane {filter: url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\'><filter id=\'grayscale\'><feColorMatrix type=\'matrix\' values=\'0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0 0 0 1 0\'/></filter></svg>#grayscale") !important;
+    /* Firefox 3.5+ Chrome 19+ & Safari 6+ */
+    -webkit-filter: grayscale(100%) !important;  
+}
+    </style>
 
 </head>
 
@@ -22,13 +30,13 @@
 
 
 <div class="container">
-
-    <a class="btn btn-success" href="javascript:void(0)" id="createNewBook">Новая компания</a>
+<a href="{{url('/users')}}" class="btn btn-success" >Сотрудники</a>
+    <a class="btn btn-success" href="javascript:void(0)" id="createNewBook">Добавить компанию</a>
     <div class="row">
         <div class="col-md-12 mt-5">
             <div class="row">
                 <div class="col-md-12 text-center">
-                    <h3><strong>Laravel 8 Datatable Example</strong></h3>
+                    
                 </div>
             </div>
             <table class="table table-bordered data-table">
@@ -98,7 +106,7 @@
     </div>
 </div>
 
-
+<div id="map"></div>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>  
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.js"></script>
@@ -196,99 +204,34 @@ $.ajax({
 });
 });
 
+
 </script>
+<script>
 
-<script type="text/javascript">
-        // Инициализация карты
-        ymaps.ready(init);
- 
-        function init() {
-    var myMap = new ymaps.Map("map", {
-            center: [55.76, 37.64],
-            zoom: 10
-        }, {
-            searchControlProvider: 'yandex#search'
-        }),
+var collection = new ymaps.GeoObjectCollection();
+$.get("{{ route('company.index') }}", function (data) {   
+     for(var i = 0, len = data.length; i < len; i++) {  
+               collection.add(new ymaps.Placemark([53.902512,
+               27.561481], {      
+                balloonContent : data[i].company,  
+            hintContent : data[i].email })); 
+           }});
 
-    // Создаем геообъект с типом геометрии "Точка".
-        myGeoObject = new ymaps.GeoObject({
-            // Описание геометрии.
-            geometry: {
-                type: "Point",
-                coordinates: [55.8, 37.8]
-            },
-          
-        });
-       
+
+
+
+
+   
+
+   
+
     myMap.geoObjects
-        .add(myGeoObject)
-        .add(myPieChart)
-        .add(new ymaps.Placemark([55.684758, 37.738521], {
-            balloonContent: 'Beahan, Baumbach and Tremblay'
-        }, {
-            preset: 'islands#dotIcon',
-        }))
-        .add(new ymaps.Placemark([55.833436, 37.715175], {
-            balloonContent: 'Moen Inc'
-        }, {
-            preset: 'islands#dotIcon',
-            iconColor: '#735184'
-        }))
-        .add(new ymaps.Placemark([55.687086, 37.529789], {
-            balloonContent: 'цвет <strong>влюбленной жабы</strong>'
-        }, {
-            preset: 'islands#dotIcon',
-            iconColor: '#735184'
-        }))
-        .add(new ymaps.Placemark([55.782392, 37.614924], {
-            balloonContent: 'цвет <strong>детской неожиданности</strong>'
-        }, {
-            preset: 'islands#circleDotIcon',
-            iconColor: 'yellow'
-        }))
-        .add(new ymaps.Placemark([55.642063, 37.656123], {
-            balloonContent: 'цвет <strong>красный</strong>'
-        }, {
-            preset: 'islands#redSportIcon'
-        }))
-        .add(new ymaps.Placemark([55.826479, 37.487208], {
-            balloonContent: 'цвет <strong>фэйсбука</strong>'
-        }, { preset: 'islands#blackStretchyIcon',
-            preset: 'islands#governmentCircleIcon',
-            iconColor: '#3b5998',
-     
+    .add(collection);
+    
+    
 
-        }))
-        .add(new ymaps.Placemark([55.694843, 37.435023], {
-            balloonContent: 'цвет <strong>носика Гены</strong>',
-            iconCaption: 'Очень длиннный, но невероятно интересный текст'
-        }, {
-            preset: 'islands#greenDotIconWithCaption'
-        }))
-        .add(new ymaps.Placemark([55.790139, 37.814052], {
-            balloonContent: 'цвет <strong>голубой</strong>',
-            iconCaption: 'Очень длиннный, но невероятно интересный текст'
-        }, {
-            preset: 'islands#blueCircleDotIconWithCaption',
-            iconCaptionMaxWidth: '50'
-        }));
-}
-
-          
     
     </script>
-  <style>
-           /*Размер карты*/
-           #map { width:100%;height:500px }
-           /*Отображение карты в черно-белом цвете */
-           .ymaps-glass-pane, .ymaps-layers-pane {filter: url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\'><filter id=\'grayscale\'><feColorMatrix type=\'matrix\' values=\'0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0 0 0 1 0\'/></filter></svg>#grayscale") !important;
-    /* Firefox 3.5+ Chrome 19+ & Safari 6+ */
-    -webkit-filter: grayscale(100%) !important;  
-}
-    </style>
 
-
-     
-    
      </body>
 </html>

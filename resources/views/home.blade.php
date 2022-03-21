@@ -15,6 +15,7 @@
                     @endif
 
                     {{ __('You are logged in!') }}
+                    <a class="link" href="{{url('/company')}}"> <button class="btn btn-success"  id="createNewBook">Пройти на главную страницу</button></a>
                 </div>
             </div>
         </div>
