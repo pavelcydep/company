@@ -158,7 +158,7 @@
 
         $.ajax({
           data: $('#bookForm').serialize(),
-          url: "{{ route('ajaxbooks.store') }}",
+          url: "{{ route('company.store') }}",
           type: "POST",
           dataType: 'json',
           success: function (data) {
