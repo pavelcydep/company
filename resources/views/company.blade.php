@@ -1,32 +1,5 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Laravel 8 Datatable Example</title>
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css" />
-    <link href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" rel="stylesheet">
-    <link href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css" rel="stylesheet">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>  
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.js"></script>
-    <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
-    <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
-    <script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU&amp;apikey=<ваш API-ключ>" type="text/javascript"></script>
-    <script src="placemark.js" type="text/javascript"></script>
-    <style>
-           /*Размер карты*/
-           #map { width:70%;height:500px }
-           /*Отображение карты в черно-белом цвете */
-           .ymaps-glass-pane, .ymaps-layers-pane {filter: url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\'><filter id=\'grayscale\'><feColorMatrix type=\'matrix\' values=\'0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0 0 0 1 0\'/></filter></svg>#grayscale") !important;
-    /* Firefox 3.5+ Chrome 19+ & Safari 6+ */
-    -webkit-filter: grayscale(100%) !important;  
-}
-    </style>
-
-</head>
-
-<body>
-
+@extends('layouts.main')
+@section('content')
 
 
 <div class="container">
@@ -57,7 +30,6 @@
         </div>
     </div>
 </div>
-
 
 <div class="modal fade" id="ajaxModel" aria-hidden="true">
     <div class="modal-dialog">
@@ -106,132 +78,105 @@
     </div>
 </div>
 
-<div id="map"></div>
+
+
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>  
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.js"></script>
     <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>  
-<script type="text/javascript">
- $(function () {
-      $.ajaxSetup({
-          headers: {
-              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-          }
-    });
+
+<script>
+$(function () {
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+  });
+});
+$(function () {
+  var table = $('.data-table').DataTable({
+      processing: true,
+      serverSide: true,
+      ajax: "{{ route('company.index') }}",
+      columns: [
+          {data: 'DT_RowIndex', name: 'DT_RowIndex'},
+          {data: 'company', name: 'company'},
+          {data: 'email', name: 'email'},
+          {data: 'logo', name: 'logo'},
+          {data: 'addres', name: 'addres'},
+          {data: 'action', name: 'action', orderable: false, searchable: false},
+      ]
+  });
+});
+
+
+$('#createNewBook').click(function () {
+      $('#saveBtn').val("Сохранить");
+      $('#book_id').val('');
+      $('#bookForm').trigger("reset");
+      $('#modelHeading').html("Добавить компанию");
+      $('#ajaxModel').modal('show');
+  });
+  $('body').on('click', '.edit', function () {
+    var book_id = $(this).data('id');
+    $.get("{{ url('/company') }}" +'/' + book_id +'/edit' , function (data) {
+        $('#modelHeading').html("Изменить компанию");
+        $('#saveBtn').val("Изменить");
+        $('#ajaxModel').modal('show');
+        $('#book_id').val(data.id);
+        $('#company').val(data.company);
+        $('#email').val(data.email);
+        $('#logo').val(data.logo);
+        $('#addres').val(data.addres);
+       
+
+    })
  });
- $(function () {
-    var table = $('.data-table').DataTable({
-        processing: true,
-        serverSide: true,
-        ajax: "{{ route('company.index') }}",
-        columns: [
-            {data: 'DT_RowIndex', name: 'DT_RowIndex'},
-            {data: 'company', name: 'company'},
-            {data: 'email', name: 'email'},
-            {data: 'logo', name: 'logo'},
-            {data: 'addres', name: 'addres'},
-            {data: 'action', name: 'action', orderable: false, searchable: false},
-        ]
+  $('#saveBtn').click(function (e) {
+      e.preventDefault();
+      $(this).html('Save');
+
+      $.ajax({
+        data: $('#bookForm').serialize(),
+        url: "{{ route('company.store') }}",
+        type: "POST",
+        dataType: 'json',
+        success: function (data) {
+
+            $('#bookForm').trigger("reset");
+            $('#ajaxModel').modal('hide');
+            table.draw();
+
+        },
+        error: function (data) {
+            console.log('Error:', data);
+            $('#saveBtn').html('Save Changes');
+        }
     });
   });
 
 
-  $('#createNewBook').click(function () {
-        $('#saveBtn').val("Сохранить");
-        $('#book_id').val('');
-        $('#bookForm').trigger("reset");
-        $('#modelHeading').html("Добавить компанию");
-        $('#ajaxModel').modal('show');
-    });
-    $('body').on('click', '.edit', function () {
-      var book_id = $(this).data('id');
-      $.get("{{ url('/company') }}" +'/' + book_id +'/edit' , function (data) {
-          $('#modelHeading').html("Изменить компанию");
-          $('#saveBtn').val("Изменить");
-          $('#ajaxModel').modal('show');
-          $('#book_id').val(data.id);
-          $('#company').val(data.company);
-          $('#email').val(data.email);
-          $('#logo').val(data.logo);
-          $('#addres').val(data.addres);
-         
-
-      })
-   });
-    $('#saveBtn').click(function (e) {
-        e.preventDefault();
-        $(this).html('Save');
-
-        $.ajax({
-          data: $('#bookForm').serialize(),
-          url: "{{ route('company.store') }}",
-          type: "POST",
-          dataType: 'json',
-          success: function (data) {
-
-              $('#bookForm').trigger("reset");
-              $('#ajaxModel').modal('hide');
-              table.draw();
-
-          },
-          error: function (data) {
-              console.log('Error:', data);
-              $('#saveBtn').html('Save Changes');
-          }
-      });
-    });
 
 
-
-
-  $('body').on('click', '.delete', function () {
+$('body').on('click', '.delete', function () {
 
 var book_id = $(this).data("id");
 confirm("Are You sure want to delete !");
 
 
 $.ajax({
-    type: "DELETE",
-    url: "{{ (url('/company')) }}"+'/'+book_id+'/destroy',
-    success: function (data) {
-        table.draw();
-    },
-    error: function (data) {
-        console.log('Error:', data);
-    }
+  type: "DELETE",
+  url: "{{ (url('/company')) }}"+'/'+book_id+'/destroy',
+  success: function (data) {
+      table.draw();
+  },
+  error: function (data) {
+      console.log('Error:', data);
+  }
 });
 });
-
 
 </script>
-<script>
-
-var collection = new ymaps.GeoObjectCollection();
-$.get("{{ route('company.index') }}", function (data) {   
-     for(var i = 0, len = data.length; i < len; i++) {  
-               collection.add(new ymaps.Placemark([53.902512,
-               27.561481], {      
-                balloonContent : data[i].company,  
-            hintContent : data[i].email })); 
-           }});
-
-
-
-
-
-   
-
-   
-
-    myMap.geoObjects
-    .add(collection);
-    
-    
-
-    
-    </script>
-
-     </body>
-</html>
+@endsection
