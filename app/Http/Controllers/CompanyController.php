@@ -3,6 +3,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Company;
+use App\Models\User;
 use Illuminate\Support\Facades\Gate;
 use DataTables;
 
@@ -92,7 +93,8 @@ class CompanyController extends Controller
    
     public  function map(){
         $company = Company::all();
-        return view('map',['company' => $company]);
+        $users = User::all();
+        return view('map',['users' => $users, 'company' => $company,]);
         
 
 }

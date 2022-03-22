@@ -1,10 +1,13 @@
 <?php
-
+use App\Models\Company;
+use App\Models\User;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Gate;
+
 
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CompanyController;
+
+
 
 
 

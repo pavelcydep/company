@@ -19,7 +19,6 @@ class CreateUsersTable extends Migration
             $table->foreignId('company_id')->constrained()->onDelete('cascade');
             $table->string('phoneNumber');
             $table->string('email')->unique();
-        
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();

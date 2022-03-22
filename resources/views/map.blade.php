@@ -1,4 +1,3 @@
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
 <div id="map" style="width: 100%; height:500px"></div>
                                                                                                                                                                                                                                                                                          
 <script src="https://api-maps.yandex.ru/2.1/?lang=ru-RU" type="text/javascript"></script>
@@ -15,15 +14,20 @@ function init() {
 	var myCollection = new ymaps.GeoObjectCollection(); 
  
 	<?php foreach ($company as $row): ?>
+		<?php foreach ($row->users as $r): ?>
 	var myPlacemark = new ymaps.Placemark([
 		<?php echo $row['points']; ?>
-	], {
-		balloonContent: '<?php echo $row['company']; ?>'
+	], 
+	
+	{
+		balloonContentHeader: '<?php echo $row['company']; ?>',
+		balloonContent: '<?php echo $r['name']; ?>'
 	}, {
 		preset: 'islands#icon',
 		iconColor: '#0000ff'
 	});
 	myCollection.add(myPlacemark);
+	<?php endforeach; ?>
 	<?php endforeach; ?>
  
 	myMap.geoObjects.add(myCollection);
