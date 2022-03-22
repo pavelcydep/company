@@ -1,5 +1,4 @@
-//https://snipp.ru/php/yamaps-db
-//НУЖНО ВНЕСТИ В БД КООРДИНАТЫ                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
 <div id="map" style="width: 100%; height:500px"></div>
                                                                                                                                                                                                                                                                                          
 <script src="https://api-maps.yandex.ru/2.1/?lang=ru-RU" type="text/javascript"></script>
@@ -7,7 +6,7 @@
 ymaps.ready(init);
 function init() {
 	var myMap = new ymaps.Map("map", {
-		center: [55.75985606898725,37.61054750000002] ,
+		center: [55.791845,49.157645] ,
 		zoom: 16
 	}, {
 		searchControlProvider: 'yandex#search'
@@ -17,7 +16,7 @@ function init() {
  
 	<?php foreach ($company as $row): ?>
 	var myPlacemark = new ymaps.Placemark([
-		<?php echo $row['name']; ?>
+		<?php echo $row['points']; ?>
 	], {
 		balloonContent: '<?php echo $row['company']; ?>'
 	}, {
@@ -29,7 +28,7 @@ function init() {
  
 	myMap.geoObjects.add(myCollection);
 	
-	// Сделаем у карты автомасштаб чтобы были видны все метки.
+	
 	myMap.setBounds(myCollection.getBounds(),{checkZoomRange:true, zoomMargin:9});
 }
 </script>
