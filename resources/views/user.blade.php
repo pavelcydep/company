@@ -2,12 +2,13 @@
 @section('content')
 <div class="container">
 <a href="{{url('/company')}}" class="btn btn-success" >Компании</a>
+<a href="{{url('/map')}}" class="btn btn-success" >Карта</a>
 <a class="btn btn-success" href="javascript:void(0)" id="createNewUser">Добавить сотрудника</a>
     <div class="row">
         <div class="col-md-12 mt-5">
             <div class="row">
                 <div class="col-md-12 text-center">
-                    <h3><strong>Laravel 8 Datatable Example</strong></h3>
+                    <h3><strong>Сотрудники</strong></h3>
                 </div>
             </div>
             <table class="table table-bordered data-table">

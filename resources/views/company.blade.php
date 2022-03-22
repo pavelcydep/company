@@ -1,15 +1,17 @@
+
 @extends('layouts.main')
 @section('content')
 
 
 <div class="container">
 <a href="{{url('/users')}}" class="btn btn-success" >Сотрудники</a>
+<a href="{{url('/map')}}" class="btn btn-success" >Карта</a>
     <a class="btn btn-success" href="javascript:void(0)" id="createNewBook">Добавить компанию</a>
     <div class="row">
         <div class="col-md-12 mt-5">
             <div class="row">
                 <div class="col-md-12 text-center">
-                    
+                    <h3><strong>Компании</strong></h3>
                 </div>
             </div>
             <table class="table table-bordered data-table">

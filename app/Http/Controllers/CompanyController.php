@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
@@ -9,34 +10,32 @@ use DataTables;
 
 class CompanyController extends Controller
 {
- 
 
- 
+
+
 
     public function index(Request $request)
     {
-        
-    
-        
         if ($request->ajax()) {
             $data = Company::latest()->get();
             return Datatables::of($data)
-                    ->addIndexColumn()
-                    
-                    ->addColumn('action', function($row){
-                        if(Gate::check('admin-protected')){
-                        $btn = '<a href="javascript:void(0)" data-toggle="tooltip"  data-id="'.$row->id.'" data-original-title="Edit" class="edit btn btn-primary btn-sm edit">Edit</a>';
+                ->addIndexColumn()
 
-                        $btn = $btn.' <a href="javascript:void(0)" data-toggle="tooltip"  data-id="'.$row->id.'" data-original-title="Delete" class="btn btn-danger btn-sm delete">Delete</a>';
+                ->addColumn('action', function ($row) {
+                    if (Gate::check('admin-protected')) {
+                        $btn = '<a href="javascript:void(0)" data-toggle="tooltip"  data-id="' . $row->id . '" data-original-title="Edit" class="edit btn btn-primary btn-sm edit">Edit</a>';
 
-                        
-                        
+                        $btn = $btn . ' <a href="javascript:void(0)" data-toggle="tooltip"  data-id="' . $row->id . '" data-original-title="Delete" class="btn btn-danger btn-sm delete">Delete</a>';
 
-                         return $btn;}
-                 })
-                 ->rawColumns(['action'])
-                    
-                    ->make(true);
+
+
+
+                        return $btn;
+                    }
+                })
+                ->rawColumns(['action'])
+
+                ->make(true);
         }
 
         return view('company');
@@ -46,14 +45,24 @@ class CompanyController extends Controller
 
     public function store(Request $request)
     {
-        Company::updateOrCreate(['id' => $request->book_id],
-                ['company' => $request->company, 
+        Company::updateOrCreate(
+
+            $validated = $request->validate([
+                'company' => 'required|min:10',
+                
+            ]),
+
+
+            ['id' => $request->book_id],
+            [
+                'company' => $request->company,
                 'email' => $request->email,
                 'logo' => $request->logo,
-                'addres' => $request->addres,
-            ]);        
+                'Адрес' => $request->addres,
+            ]
+        );
 
-        return response()->json(['success'=>'Book saved successfully.']);
+        return response()->json(['success' => 'Book saved successfully.']);
     }
     /**
      * Show the form for editing the specified resource.
@@ -61,15 +70,10 @@ class CompanyController extends Controller
      * @param  \App\Company  $company
      * @return \Illuminate\Http\Response
      */
-   
 
 
-    public function storeUpdate($id)
-    {
-        $company = Company::findOrfail($id);
-        return response()->json($company);
-        
-    }
+
+    
 
     /**
      * Remove the specified resource from storage.
@@ -79,7 +83,7 @@ class CompanyController extends Controller
      */
     public function destroy($id)
     {
-        $company= Company::find($id)->delete();
+        $company = Company::find($id)->delete();
 
         return response()->json($company);
     }
@@ -90,13 +94,11 @@ class CompanyController extends Controller
         $book = Company::find($id);
         return response()->json($book);
     }
-   
-    public  function map(){
+
+    public  function map()
+    {
         $company = Company::all();
         $users = User::all();
-        return view('map',['users' => $users, 'company' => $company,]);
-        
-
-}
-
+        return view('map', ['users' => $users, 'company' => $company,]);
+    }
 }
