@@ -48,8 +48,11 @@ class CompanyController extends Controller
         Company::updateOrCreate(
 
             $validated = $request->validate([
-                'company' => 'required|min:10',
-                
+                'company' => 'required',
+                'email'=>'required',
+                'email'=>'required',
+                'addres'=>'required'
+
             ]),
 
 
@@ -58,7 +61,7 @@ class CompanyController extends Controller
                 'company' => $request->company,
                 'email' => $request->email,
                 'logo' => $request->logo,
-                'Адрес' => $request->addres,
+                'addres' => $request->addres,
             ]
         );
 

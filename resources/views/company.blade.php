@@ -46,27 +46,27 @@
                         <label for="name" class="col-sm-2 control-label">Компания</label>
                         <div class="col-sm-12">
                             <input type="text" class="form-control" id="company" name="company" placeholder="Компания" value="" maxlength="50" required="">
-                        </div>
+                          </div>
                     </div>
 
                     <div class="form-group">
                         <label for="name" class="col-sm-2 control-label">Email</label>
                         <div class="col-sm-12">
-                            <input type="text" class="form-control" id="email" name="email" placeholder="Email" value="" maxlength="50" required="">
+                            <input type="email" class="form-control" id="email" name="email" placeholder="Email" value="" maxlength="50" required="">
                         </div>
                     </div>
 
                     <div class="form-group">
                         <label class="col-sm-2 control-label">Логотип</label>
                         <div class="col-sm-12">
-                            <textarea id="logo" name="logo" required="" placeholder="Logo" class="form-control"></textarea>
+                            <textarea id="logo" name="logo" required="" placeholder="Логотип" class="form-control"></textarea>
                         </div>
                     </div>
 
                     <div class="form-group">
                         <label class="col-sm-2 control-label">Адрес</label>
                         <div class="col-sm-12">
-                            <textarea id="logo" name="addres" required="" placeholder="addres" class="form-control"></textarea>
+                            <textarea id="addres" name="addres" required="" placeholder="адрес" class="form-control"></textarea>
                         </div>
                     </div>
 
