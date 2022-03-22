@@ -29,7 +29,17 @@ class UserController extends Controller
     }
     public function store(Request $request)
     {
-        User::updateOrCreate(['id' => $request->user_id],
+        User::updateOrCreate(
+            $validated = $request->validate([
+                'name' => 'required',
+                'email'=>'required',
+                'company_id'=>'required',
+                
+
+            ]),
+            
+            
+            ['id' => $request->user_id],
                 ['name' => $request->name, 
                 'email' => $request->email,
                 'company_id' => $request->company_id,
@@ -37,7 +47,7 @@ class UserController extends Controller
                
             ]);        
 
-        return response()->json(['success'=>'Book saved successfully.']);
+        return response()->json(['success'=>' saved successfully.']);
     }
     /**
      * Show the form for editing the specified resource.

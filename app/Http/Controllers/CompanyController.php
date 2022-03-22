@@ -51,7 +51,7 @@ class CompanyController extends Controller
                 'company' => 'required',
                 'email'=>'required',
                 'email'=>'required',
-                'addres'=>'required'
+                'addres'=>'required',
 
             ]),
 
@@ -94,8 +94,8 @@ class CompanyController extends Controller
 
     public function edit($id)
     {
-        $book = Company::find($id);
-        return response()->json($book);
+        $company = Company::find($id);
+        return response()->json($company);
     }
 
     public  function map()

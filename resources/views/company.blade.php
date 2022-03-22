@@ -6,7 +6,7 @@
 <div class="container">
 <a href="{{url('/users')}}" class="btn btn-success" >Сотрудники</a>
 <a href="{{url('/map')}}" class="btn btn-success" >Карта</a>
-    <a class="btn btn-success" href="javascript:void(0)" id="createNewBook">Добавить компанию</a>
+    <a class="btn btn-success" href="javascript:void(0)" id="createNewCompany">Добавить компанию</a>
     <div class="row">
         <div class="col-md-12 mt-5">
             <div class="row">
@@ -40,7 +40,7 @@
                 <h4 class="modal-title" id="modelHeading"></h4>
             </div>
             <div class="modal-body">
-                <form id="bookForm" name="bookForm" class="form-horizontal">
+                <form id="form" name="form" class="form-horizontal">
                    <input type="hidden" name="book_id" id="book_id">
                     <div class="form-group">
                         <label for="name" class="col-sm-2 control-label">Компания</label>
@@ -114,16 +114,16 @@ $(function () {
 });
 
 
-$('#createNewBook').click(function () {
+$('#createNewCompany').click(function () {
       $('#saveBtn').val("Сохранить");
       $('#book_id').val('');
-      $('#bookForm').trigger("reset");
+      $('#form').trigger("reset");
       $('#modelHeading').html("Добавить компанию");
       $('#ajaxModel').modal('show');
   });
   $('body').on('click', '.edit', function () {
-    var book_id = $(this).data('id');
-    $.get("{{ url('/company') }}" +'/' + book_id +'/edit' , function (data) {
+    var id = $(this).data('id');
+    $.get("{{ url('/company') }}" +'/' + id +'/edit' , function (data) {
         $('#modelHeading').html("Изменить компанию");
         $('#saveBtn').val("Изменить");
         $('#ajaxModel').modal('show');
@@ -141,20 +141,20 @@ $('#createNewBook').click(function () {
       $(this).html('Save');
 
       $.ajax({
-        data: $('#bookForm').serialize(),
+        data: $('#form').serialize(),
         url: "{{ route('company.store') }}",
         type: "POST",
         dataType: 'json',
         success: function (data) {
 
-            $('#bookForm').trigger("reset");
+            $('#form').trigger("reset");
             $('#ajaxModel').modal('hide');
             table.draw();
 
         },
         error: function (data) {
             console.log('Error:', data);
-            $('#saveBtn').html('Save Changes');
+            $('#saveBtn').html('Добавить');
         }
     });
   });
@@ -164,13 +164,13 @@ $('#createNewBook').click(function () {
 
 $('body').on('click', '.delete', function () {
 
-var book_id = $(this).data("id");
+var id = $(this).data("id");
 confirm("Are You sure want to delete !");
 
 
 $.ajax({
   type: "DELETE",
-  url: "{{ (url('/company')) }}"+'/'+book_id+'/destroy',
+  url: "{{ (url('/company')) }}"+'/'+id+'/destroy',
   success: function (data) {
       table.draw();
   },
