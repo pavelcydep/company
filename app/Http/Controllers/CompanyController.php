@@ -90,7 +90,11 @@ class CompanyController extends Controller
         return response()->json($book);
     }
    
-    
+    public  function map(){
+        $company = Company::all();
+        return view('map',['company' => $company]);
+        
 
 }
 
+}

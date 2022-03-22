@@ -13,7 +13,8 @@ class Company extends Model
         'company',
         'email',
         'logo',
-        'addres'
+        'addres',
+        'points'
     ];
 
     public function users()

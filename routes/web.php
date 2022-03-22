@@ -9,6 +9,7 @@ use App\Http\Controllers\CompanyController;
 
 
 
+Route::get('/map', [CompanyController::class, 'map'])->name('company.map');
 
 
 Route::delete('/company/{id}/destroy', [CompanyController::class, 'destroy'])->name('company.destroy');
