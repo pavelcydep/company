@@ -20,15 +20,22 @@
 ================
 ## Для начала работы вам необходимо:
 скопировать проект:
-git clone 
+git clone https://github.com/pavelcydep/company.git
 
 ## Далее следует выполнить следующюю команду:
 php artisan migrate:fresh --seed
+
+## Добавление тестовых данных в таблицу Users:
+php artisan tinker
+User::factory()->count(100)->create();
+
 ## Запуск проекта:
 php artisan serve
 
+## Авторизация по логину:
+ http://127.0.0.1:8000/login
 
-## Пользователь с правами админа по умолчанию:
+### Пользователь с правами админа по умолчанию:
 email:test@example.com
 password:password
 
