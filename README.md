@@ -35,11 +35,13 @@ php artisan serve
 ## Авторизация по логину:
  http://127.0.0.1:8000/login
 
-### Пользователь с правами админа по умолчанию:
+### Пользователь с правами админа(удаление,добавление,изменение):
 email:test@example.com
 password:password
 
-
+### Пользователь:
+email:test2@example.com
+password:password
 
 Стек технологий
 ===============
