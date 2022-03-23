@@ -11,9 +11,6 @@ use DataTables;
 class CompanyController extends Controller
 {
 
-
-
-
     public function index(Request $request)
     {
         if ($request->ajax()) {
@@ -24,12 +21,7 @@ class CompanyController extends Controller
                 ->addColumn('action', function ($row) {
                     if (Gate::check('admin-protected')) {
                         $btn = '<a href="javascript:void(0)" data-toggle="tooltip"  data-id="' . $row->id . '" data-original-title="Edit" class="edit btn btn-primary btn-sm edit">Edit</a>';
-
                         $btn = $btn . ' <a href="javascript:void(0)" data-toggle="tooltip"  data-id="' . $row->id . '" data-original-title="Delete" class="btn btn-danger btn-sm delete">Delete</a>';
-
-
-
-
                         return $btn;
                     }
                 })
@@ -41,17 +33,15 @@ class CompanyController extends Controller
         return view('company');
     }
 
-
-
     public function store(Request $request)
     {
         Company::updateOrCreate(
 
             $validated = $request->validate([
                 'company' => 'required',
-                'email'=>'required',
-                'email'=>'required',
-                'addres'=>'required',
+                'email' => 'required',
+                'email' => 'required',
+                'addres' => 'required',
 
             ]),
 
@@ -76,7 +66,7 @@ class CompanyController extends Controller
 
 
 
-    
+
 
     /**
      * Remove the specified resource from storage.

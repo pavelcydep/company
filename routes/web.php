@@ -1,9 +1,6 @@
 <?php
-use App\Models\Company;
-use App\Models\User;
+
 use Illuminate\Support\Facades\Route;
-
-
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CompanyController;
 
@@ -13,21 +10,15 @@ use App\Http\Controllers\CompanyController;
 
 
 Route::get('/map', [CompanyController::class, 'map'])->name('company.map');
-
-
 Route::delete('/company/{id}/destroy', [CompanyController::class, 'destroy'])->name('company.destroy');
-
 Route::get('/company', [CompanyController::class, 'index'])->name('company.index');
 Route::get('/company/{id}/edit', [CompanyController::class, 'edit'])->name('company.edit');
 Route::post('/company', [CompanyController::class, 'store'])->name('company.store');
-
 Route::delete('/users/{id}/destroy', [UserController::class, 'destroy'])->name('company.destroy');
 Route::get('/users', [UserController::class, 'index'])->name('users.index');
-
 Route::get('/users/{id}/edit', [UserController::class, 'edit'])->name('user.edit');
 Route::post('/users', [UserController::class, 'store'])->name('user.store');
 Auth::routes();
-
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('home/company', [App\Http\Controllers\HomeController::class, 'home'])->name('home2');
 

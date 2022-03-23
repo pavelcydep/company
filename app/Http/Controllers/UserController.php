@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Company;
@@ -17,10 +17,11 @@ class UserController extends Controller
             return Datatables::of($data)
                     ->addIndexColumn()
                     ->addColumn('action', function($row){
+                        if (Gate::check('admin-protected')) {
                         $btn = '<a href="javascript:void(0)" class="edit btn btn-primary btn-sm">Изменить</a>';
                         $btn = $btn.' <a href="javascript:void(0)" data-toggle="tooltip"  data-id="'.$row->id.'" data-original-title="Delete" class="btn btn-danger btn-sm delete">Удалить</a>';
                         return $btn;
-                    })
+                    }})
                     ->rawColumns(['action'])
                     ->make(true);
         }
