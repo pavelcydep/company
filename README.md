@@ -45,4 +45,4 @@ password:password
 
 Стек технологий
 ===============
-PHP,LARAVEL,HTML,bootstrap
+PHP,LARAVEL,HTML,bootstrap,jquery,Ajax
